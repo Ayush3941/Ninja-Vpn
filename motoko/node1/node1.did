@@ -1,0 +1,12 @@
+service : {
+  http_request: (record {
+    method: text;
+    url: text;
+    headers: vec record { name: text; value: text };
+    body: blob;
+  }) -> (record {
+    status: nat;
+    headers: vec record { name: text; value: text };
+    body: blob;
+  });
+}
