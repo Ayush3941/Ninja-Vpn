@@ -1,0 +1,3 @@
+service : {
+  forward: (encodedUrl: text) -> (text);
+}

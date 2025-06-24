@@ -1,0 +1,18 @@
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+service : {
+  fetchFinal: (encodedUrl: text) -> (text);
+  transform: (args: record {
+                      context: blob;
+                      response: HttpRequestResult;
+                    }) -> (HttpRequestResult) query;
+}

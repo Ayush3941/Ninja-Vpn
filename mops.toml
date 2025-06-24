@@ -1,0 +1,4 @@
+[dependencies]
+base64 = "1.0.0"
+base = "0.14.1"
+ic = "2.0.0"
