@@ -5,7 +5,7 @@ import { HttpAgent, Actor } from '@dfinity/agent';
 import { idlFactory } from '../../../declarations/node1/node1.did.js';
 const node1Actor = "owyeu-jiaaa-aaaam-qdvwq-cai";
 export default function DashboardPage() {
-  const [url, setUrl] = useState("https://example.com");
+  const [url, setUrl] = useState("https://ipinfo.io/json");
   const [responseHtml, setResponseHtml] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -101,32 +101,34 @@ export default function DashboardPage() {
         </div>
 
         {/* VPN Browser Window */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="w-full h-[100vh] bg-gray-950/70 backdrop-blur-lg border border-gray-800 shadow-2xl shadow-purple-900 rounded-2xl overflow-hidden relative"
-        >
-          <div className="px-4 py-2 bg-gray-900 border-b border-gray-700 flex items-center justify-between">
-            <span className="text-sm text-purple-300">Secure VPN Window</span>
-            <span className="text-xs text-gray-500">ICP Node Proxy Active</span>
-          </div>
-          <div className="h-full w-full overflow-hidden">
-            {loading ? (
-              <div className="flex items-center justify-center h-full text-purple-400 text-lg">
-                Fetching content...
-              </div>
-            ) : (
-              <iframe
-  srcDoc={responseHtml}
-  style={{ width: "100%", height: "100vh", border: "none" }}
-  sandbox="allow-scripts allow-same-origin"
-/>
+        {/* VPN Browser Window */}
+<motion.div
+  initial={{ opacity: 0, scale: 0.97 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ delay: 0.2, duration: 0.5 }}
+  className="w-full h-[100vh] bg-gray-950/70 backdrop-blur-lg border border-gray-800 shadow-2xl shadow-purple-900 rounded-2xl overflow-hidden relative"
+>
+  <div className="px-4 py-2 bg-gray-900 border-b border-gray-700 flex items-center justify-between">
+    <span className="text-sm text-purple-300">Secure VPN Window</span>
+    <span className="text-xs text-gray-500">ICP Node Proxy Active</span>
+  </div>
 
+  {/* Make iframe area have white bg so it's neutral */}
+  <div className="h-full w-full overflow-hidden bg-white text-black">
+    {loading ? (
+      <div className="flex items-center justify-center h-full text-purple-600 text-lg">
+        Fetching content...
+      </div>
+    ) : (
+      <iframe
+        srcDoc={responseHtml}
+        style={{ width: "100%", height: "100%", border: "none" }}
+        sandbox="allow-scripts allow-same-origin"
+      />
+    )}
+  </div>
+</motion.div>
 
-            )}
-          </div>
-        </motion.div>
 
         {/* Bottom Info */}
         <div className="text-center text-sm text-gray-500">

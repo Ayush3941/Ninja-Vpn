@@ -24,38 +24,11 @@ actor Node3 {
   public func fetchFinal(encodedUrl: Text): async Text {
     Debug.print("Node3 processing encoded URL");
 
-    // Initialize Base64 decoder
-    let base64 = Base64Engine(#v V2, ?false);
-
-    // Validate Base64 format
-    if (not base64.isValid(encodedUrl)) {
-      Debug.print("Invalid Base64 format");
-      return "Error: Invalid Base64 encoding";
-    };
-
-    // Decode Base64 to get the actual URL
-    let decodedBytes = base64.decode(encodedUrl);
-    let decodedBlob = Blob.fromArray(decodedBytes);
-
-    let url = switch (Text.decodeUtf8(decodedBlob)) {
-      case null {
-        Debug.print("Failed to decode UTF-8");
-        return "Error: Invalid UTF-8 in decoded URL";
-      };
-      case (?decodedUrl) {
-        Debug.print("Decoded URL: " # decodedUrl);
-        decodedUrl
-      };
-    };
-
     // Validate URL format (basic check)
-    if (not Text.startsWith(url, #text "https://")) {
-      return "Error: Only HTTPS URLs are supported";
-    };
-
+    let proxyUrl = "https://proxy-hdqykq.fly.dev/?url=" # encodedUrl;
     // Prepare HTTP request
     let httpRequest: IC.HttpRequestArgs = {
-      url = url;
+      url = proxyUrl;
       method = #get;
       headers = [
         { name = "User-Agent"; value = "IC-HTTP-Proxy/1.0" }
@@ -72,7 +45,7 @@ actor Node3 {
     Cycles.add<system>(21_000_000_000); // ~21B cycles
 
     try {
-      Debug.print("Making HTTP outcall to: " # url);
+
       let httpResponse = await IC.ic.http_request(httpRequest);
 
       Debug.print("HTTP response status: " # debug_show(httpResponse.status));
